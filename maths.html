@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Guess the Number Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background: rgb(66, 128, 117);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<audio loop>
+    <source src="for-her-chill-upbeat-summel-travel-vlog-and-ig-music-royalty-free-use-202298.mp3">
+</audio>    
+    <div class="container">
+        <h1><i>Welcome to Guess the Number!</i></h1>
+        <p><em>thinking of a number between 1 and 100.</em></p>
+        <input type="number" id="guess" min="1" max="100" placeholder="Enter your guess">
+        <button onclick="makeGuess()">Submit Guess</button>
+        <p id="message" class="message"></p>
+    </div>
+
+    <script>
+        // Set the secret number
+        const secretNumber = Math.floor(Math.random() * 100) + 1;
+        let guesses = 0;
+
+        function makeGuess() {
+            // Get the user's guess
+            const userGuess = parseInt(document.getElementById('guess').value);
+            const messageElement = document.getElementById('message');
+            
+            // Increment the number of guesses
+            guesses++;
+
+            // Check if the guess is correct
+            if (userGuess === secretNumber) {
+                messageElement.innerHTML = `Congratulations! You guessed it! It took you ${guesses} guesses.`;
+             
+            } else if (userGuess > secretNumber) {
+                messageElement.innerHTML = 'Too high! Try again.';
+            } else {
+                messageElement.innerHTML = 'Too low! Try again.';
+            }
+        }
+    </script>
+      
+</body>
+</html>

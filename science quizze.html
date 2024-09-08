@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element Symbol Quiz</title>
+    
+    <style>
+        /* Body and General Styling */
+        body {
+            background: linear-gradient(135deg, #8EC5FC, #E0C3FC);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Quiz container styling */
+        article {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Heading styling */
+        h1 {
+            font-size: 2.5em;
+            color: #6C63FF;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Question text styling */
+        #question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Input field styling */
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 1.2em;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Highlight input on focus */
+        input[type="text"]:focus {
+            border-color: #6C63FF;
+            outline: none;
+        }
+
+        /* Button styling */
+        button {
+            background-color: #6C63FF;
+            color: white;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background-color: #8D81FF;
+            transform: scale(1.05);
+        }
+
+        /* Result message styling */
+        .result {
+            font-weight: bold;
+            margin: 30px 0;
+            font-size: 1.3em;
+            color: #333;
+        }
+
+        /* Reward message styling */
+        #rewardMessage {
+            color: #28A745;
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        /* Score text */
+        p {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* Play Again Button */
+        #playAgain {
+            display: none;
+            margin-top: 20px;
+            background-color: #FFC107;
+        }
+
+        /* Score Progress Bar */
+        .progress-container {
+            margin-top: 30px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #6C63FF;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    
+<article>
+    <h1>Element Symbol Quiz</h1>
+    <p id="question">What is the symbol for <span id="element"></span>?</p>
+
+    <input type="text" id="userAnswer" placeholder="Enter the symbol" />
+    <button onclick="checkAnswer()">Submit</button>
+
+    <p class="result" id="feedback"></p>
+    <button id="playAgain" onclick="playAgain()">Play Again</button>
+
+    <p>Score: <span id="score">0</span></p>
+    <p id="rewardMessage"></p>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <script>
+        const elements = {
+            "Hydrogen": "H",
+            "Helium": "He",
+            "Lithium": "Li",
+            "Boron": "B",
+            "Carbon": "C",
+            "Nitrogen": "N",
+            "Oxygen": "O",
+            "Fluorine": "F",
+            "Neon": "Ne",
+            "Sodium": "Na",
+            "Magnesium": "Mg"
+        };
+
+        let currentElement = "";
+        let currentSymbol = "";
+        let score = 0;
+
+        function chooseRandomElement() {
+            const keys = Object.keys(elements);
+            const randomElement = keys[Math.floor(Math.random() * keys.length)];
+            return [randomElement, elements[randomElement]];
+        }
+
+        function startGame() {
+            [currentElement, currentSymbol] = chooseRandomElement();
+            document.getElementById("element").textContent = currentElement;
+            document.getElementById("feedback").textContent = "";
+            document.getElementById("userAnswer").value = "";
+            document.getElementById("playAgain").style.display = "none";
+            document.getElementById("rewardMessage").textContent = "";
+            updateProgressBar();
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("userAnswer").value.trim();
+            const feedback = document.getElementById("feedback");
+
+            if (userAnswer.toLowerCase() === currentSymbol.toLowerCase()) {
+                feedback.textContent = "Correct!";
+                score += 1;
+                document.getElementById("score").textContent = score;
+
+                if (score >= 5) {
+                    document.getElementById("rewardMessage").textContent = "Congratulations! You've reached 5 points! 🎉";
+                }
+            } else {
+                feedback.textContent = 'Sorry, the correct answer is ${currentSymbol}.';
+            }
+
+            document.getElementById("playAgain").style.display = "inline";
+            updateProgressBar();
+        }
+
+        function playAgain() {
+            startGame();
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            const progress = (score / 5) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Start the game on page load
+        window.onload = startGame;
+    </script>
+</article>
+
+</body>
+</html>
